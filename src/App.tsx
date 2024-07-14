@@ -7,10 +7,14 @@ function App() {
 	const [filteredUsers, setFilteredUsers] = useState([]);
 	const [nameFilter, setNameFilter] = useState('');
 
+	const uniqueCities = [...new Set(users.map(user => user.address.city))];
+	const [cityFilter, setCityFilter] = useState('');
+
 	  useEffect(() => {
 		axios.get('https://dummyjson.com/users')
 		  .then(response => {
 			setUsers(response.data.users);
+			setFilteredUsers(response.data.users);
 		  })
 		  .catch(error => console.error('Error fetching data:', error));
 	  }, []);
@@ -26,6 +30,18 @@ function App() {
 		setFilteredUsers(filtered);
 	  };
 
+	  const handleCityChange = (event) => {
+		const { value } = event.target;
+		setCityFilter(value);
+		if(value == ""){
+			setFilteredUsers(users);
+			return;
+		}else{
+			const filtered = users.filter(user => user.address.city === value);
+			setFilteredUsers(filtered);
+		}
+	  };
+
 	return (
 		<>
 		<input
@@ -33,6 +49,12 @@ function App() {
 			placeholder="Search by name..."
 			onChange={handleNameFilter}
 		/>
+		<select onChange={handleCityChange} value={cityFilter}>
+			<option value="">Select city</option>
+			{uniqueCities.map(city => (
+				<option key={city} value={city}>{city}</option>
+			))}
+		</select>	
 		<ul>
 		  {filteredUsers.map(user => (
 			<li key={user.id}>
