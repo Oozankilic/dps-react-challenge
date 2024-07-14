@@ -15,9 +15,13 @@ function App() {
 
 	return (
 		<>
-			<div className="home-card">
-				<p>Your solution goes here 😊</p>
-			</div>
+		<ul>
+		  {users.map(user => (
+			<li key={user.id}>
+			  {user.firstName} {user.lastName} - {user.address.city}, {user.birthDate}
+			</li>
+		  ))}
+		</ul>
 		</>
 	);
 }
