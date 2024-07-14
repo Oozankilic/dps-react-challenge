@@ -69,26 +69,27 @@ function App() {
 
 	return (
 		<>
-		<input
-			type="text"
-			placeholder="Search by name..."
-			onChange={handleDebouncedNameChange}
-		/>
-		<select onChange={handleCityChange} value={cityFilter}>
-			<option value="">Select city</option>
-			{uniqueCities.map(city => (
-				<option key={city} value={city}>{city}</option>
-			))}
-		</select>	
-		<label>
+		<div className="filters-container">
 			<input
-				type="checkbox"
-				checked={highlightOldest}
-				onChange={e => setHighlightOldest(e.target.checked)}
+				type="text"
+				placeholder="Search by name..."
+				onChange={handleDebouncedNameChange}
 			/>
+			<select onChange={handleCityChange} value={cityFilter}>
+				<option value="">Select city</option>
+				{uniqueCities.map(city => (
+					<option key={city} value={city}>{city}</option>
+				))}
+			</select>	
+			<label>
 			Highlight oldest per city
-     	</label>
-
+				<input
+					type="checkbox"
+					checked={highlightOldest}
+					onChange={e => setHighlightOldest(e.target.checked)}
+				/>
+			</label>
+		 </div>
 		 <table>
 			<thead>
 				<tr>
