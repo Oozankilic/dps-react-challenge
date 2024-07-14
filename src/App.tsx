@@ -10,6 +10,8 @@ function App() {
 	const uniqueCities = [...new Set(users.map(user => user.address.city))];
 	const [cityFilter, setCityFilter] = useState('');
 
+	const [highlightOldest, setHighlightOldest] = useState(false);
+
 	  useEffect(() => {
 		axios.get('https://dummyjson.com/users')
 		  .then(response => {
@@ -42,6 +44,22 @@ function App() {
 		}
 	  };
 
+	  const getOldestUsers = (users) => {
+		const oldestPerCity = new Map();
+		users.forEach(user => {
+		  const city = user.address.city;
+		  if (!oldestPerCity.has(city) || new Date(user.birthDate) < new Date(oldestPerCity.get(city).birthDate)) {
+			oldestPerCity.set(city, user);
+		  }
+		});
+		return oldestPerCity;
+	  };
+	  
+	  const oldestUsers = getOldestUsers(users);
+	  const isOldest = (user) => {
+		return oldestUsers.get(user.address.city).id === user.id;
+	  };
+
 	return (
 		<>
 		<input
@@ -55,12 +73,20 @@ function App() {
 				<option key={city} value={city}>{city}</option>
 			))}
 		</select>	
+		<label>
+			<input
+				type="checkbox"
+				checked={highlightOldest}
+				onChange={e => setHighlightOldest(e.target.checked)}
+			/>
+			Highlight oldest per city
+     	</label>
 		<ul>
-		  {filteredUsers.map(user => (
-			<li key={user.id}>
-			  {user.firstName} {user.lastName} - {user.address.city}, {user.birthDate}
+			{filteredUsers.map(user => (
+			<li key={user.id} style={{ fontWeight: highlightOldest ? (isOldest(user) ? 'bold' : 'normal') : 'normal' }}>
+				{user.firstName} {user.lastName} - {user.address.city}, {user.birthDate}
 			</li>
-		  ))}
+			))}
 		</ul>
 		</>
 	);
