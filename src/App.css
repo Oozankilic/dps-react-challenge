@@ -10,3 +10,23 @@
 	flex-direction: column;
 	gap: 0.5rem;
 }
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+  }
+  
+  th, td {
+	padding: 8px;
+	text-align: left;
+  }
+  
+  thead tr {
+	background-color: #f0f0f0;
+  }
+  
+  tbody tr.highlight {
+	font-weight: bold;
+	background-color: #add8e6;
+  }
+  

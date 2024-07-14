@@ -81,13 +81,25 @@ function App() {
 			/>
 			Highlight oldest per city
      	</label>
-		<ul>
-			{filteredUsers.map(user => (
-			<li key={user.id} style={{ fontWeight: highlightOldest ? (isOldest(user) ? 'bold' : 'normal') : 'normal' }}>
-				{user.firstName} {user.lastName} - {user.address.city}, {user.birthDate}
-			</li>
-			))}
-		</ul>
+
+		 <table>
+			<thead>
+				<tr>
+				<th>Name</th>
+				<th>City</th>
+				<th>Birthday</th>
+				</tr>
+			</thead>
+			<tbody>
+				{filteredUsers.map(user => (
+				<tr key={user.id} style={{ fontWeight: highlightOldest ? (isOldest(user) ? 'bold' : 'normal') : 'normal' }}>
+					<td>{user.firstName} {user.lastName}</td>
+					<td>{user.address.city}</td>
+					<td>{user.birthDate}</td>
+				</tr>
+				))}
+			</tbody>
+		</table>
 		</>
 	);
 }
